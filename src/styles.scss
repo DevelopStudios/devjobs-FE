@@ -10,3 +10,11 @@
 body {
     margin: 0;
 }
+
+.container {
+    margin: 0 12%;
+}
+.flex {
+    display: flex;
+    justify-content: space-between;
+}
