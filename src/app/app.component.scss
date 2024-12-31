@@ -1,0 +1,28 @@
+.top-nav {
+    background: #5964E0;
+    height: 121px;
+    border-bottom-left-radius: 100px;
+    padding-top:40px;
+    img.vector-1 {
+        position: absolute;
+        left: -93px;
+        top: 14px;
+    }
+    img.vector-2 {
+        position: absolute;
+        top: -357px;
+        left: 19%;
+    }
+    img.vector-3 {
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
+}
+.container {
+    margin: 0 12%;
+}
+.flex {
+    display: flex;
+    justify-content: space-between;
+}
