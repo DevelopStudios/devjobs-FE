@@ -1,3 +1,123 @@
 .search-container {
     display: flex;
+    background: #fff;
+    padding: 0 30px;
+    border-radius: 10px;
+    position: relative;
+    top: -40px;
 }
+.search {
+    display: flex;
+    align-items: center;
+    width: 43%;
+}
+.location {
+    display: flex;
+    align-items: center;
+    width: 30%;
+}
+.toggle {
+    display: flex;
+    align-items: center;
+    width: 27%;
+}
+
+
+input[type="text"].search {
+    border: none;
+    margin-left: 10px;
+    margin-bottom:6px;
+    width: 19vw;
+    font-size: 16px;
+    font-weight: 400;
+}
+input[type="text"].location {
+    border: none;
+    margin-left: 15px;
+    margin-bottom:6px;
+    width: 9vw;
+    font-size: 16px;
+    font-weight: 400;
+}
+input:focus-visible {
+    outline: 0;
+}
+input[type="text"]::placeholder {
+    font-size: 16px;
+    font-weight: 400;
+}
+span.vl {
+    width: 1px;
+    background: #6E8098;
+    height: 6.8vh;
+    margin-left: 8vw;
+    opacity: 20%;
+}
+span.vl.location {
+    margin-left: 8vw;
+}
+
+.toggle .t-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+.checkmark {
+    position: absolute;
+    top: 28px;
+    right: 19vw;
+    height: 25px;
+    width: 25px;
+    border-radius: 3px;
+    background-color: #eee;
+}
+.toggle .t-container:hover input ~ .checkmark {
+    background-color: #ccc;
+}
+.toggle .t-container input:checked ~ .checkmark {
+    background-color: #2196F3;
+}
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+.toggle .t-container input:checked ~ .checkmark:after {
+    display: block;
+}
+
+.toggle .t-container .checkmark:after {
+    left: 9px;
+    top: 5px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+
+  .toggle span.text {
+    font-size: 16px;
+    font-weight: 600;
+    margin-left: 51px;
+}
+.button {
+    background-color: #5964E0;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    font-weight: 600;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 3px;
+    position: absolute;
+    right: 13px;
+  }
