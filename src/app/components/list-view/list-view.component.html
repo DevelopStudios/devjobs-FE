@@ -1,5 +1,30 @@
 
 <div class="container">
     <app-search-bar></app-search-bar>
+    <div class="list-view">
+        <div class="entry" *ngFor="let item of listData">
+            <div class="logo" [ngStyle]="{'background': item.value.logoBackground}">
+                <img src={{getImageUrl(item.value.logo)}} alt="">
+            </div>
+            <div class="meta-data">
+            <div class="time">
+               {{item.value.postedAt}}
+            </div>
+            <span class='dot'>.</span>
+            <div class="duration">
+                {{item.value.contract}}
+            </div>
+            </div>
+            <div class="title">
+                {{item.value.position}}
+            </div>
+            <div class="company">
+                {{item.value.company}}
+            </div>
+            <div class="location">
+                {{item.value.location}}
+            </div>
+        </div>
+    </div>
 </div>
 
