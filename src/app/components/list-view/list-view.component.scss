@@ -1,7 +1,9 @@
 .list-view {
     display: flex;
     flex-flow: wrap;
-    column-gap: 16px;
+    column-gap: 16px;    
+    margin-top: 57px;
+    justify-content: center;
     .entry {
         min-width: 290px;
         background: #fff;
@@ -54,5 +56,23 @@
         font-weight: 600;
         color: #5964E0;
     }
+    }
+}
+
+.button-container {
+    text-align: center;
+    button.show {
+        background-color: #5964E0;
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        font-weight: 600;
+        margin: 4px 2px;
+        cursor: pointer;
+        border-radius: 3px;
     }
 }

@@ -1,10 +1,16 @@
 <div class="search-container">
     <div class="search">
-        <div class="icon">
+        <div class="icon" *ngIf="filter.general.length === 0 && filter.location.length === 0 && filter.fulltime === false">
             <img src="assets/search-icon.svg" alt="search-icon">
         </div>
+        <div class="icon" *ngIf="filter.general.length > 0 || filter.location.length > 0 || filter.fulltime === true" (click)="clear()">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5a64e1">
+                <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/>
+            </svg>
+        </div>
+
         <div class="form">
-            <input type="text" class="search"  placeholder="Filter by title, companies, expertise…">
+            <input type="text" class="search" [(ngModel)]="filter.general"  placeholder="Filter by title, companies, expertise…">
         </div>
         <span class="vl"></span>
     </div>
@@ -13,16 +19,16 @@
             <img src="assets/location-icon.svg" alt="location-icon">
         </div>
         <div class="location-form">
-            <input class="location" type="text"  placeholder="Filter by location…">
+            <input class="location" [(ngModel)]="filter.location" type="text"  placeholder="Filter by location…">
         </div>
         <span class="vl location"></span>
     </div>
     <div class="toggle">
         <label class="t-container">
             <span class="text">Full Time Only</span>
-            <input type="checkbox" checked="checked">
+            <input type="checkbox" [(ngModel)]="filter.fulltime">
             <span class="checkmark"></span>
         </label>
-        <button class="button">Search</button>
+        <button class="button" (click)="search()">Search</button>
     </div>
 </div>

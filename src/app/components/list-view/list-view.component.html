@@ -2,7 +2,7 @@
 <div class="container">
     <app-search-bar></app-search-bar>
     <div class="list-view">
-        <div class="entry" *ngFor="let item of listData">
+        <div class="entry" *ngFor="let item of listDataShort" (click)="toggleEntry(item)">
             <div class="logo" [ngStyle]="{'background': item.value.logoBackground}">
                 <img src={{getImageUrl(item.value.logo)}} alt="">
             </div>
@@ -26,5 +26,10 @@
             </div>
         </div>
     </div>
+    <div class="button-container">
+        <button class="show" (click)="toggleShowMore()">
+            {{showMore? 'Show Less':'Show More'}}
+        </button>
+    </div>
+    
 </div>
-

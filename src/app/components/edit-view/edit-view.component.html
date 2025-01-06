@@ -1,0 +1,81 @@
+<div class="container">
+   <div class="intro">
+    <div class="left">
+        <div class="logo" [ngStyle]="{'background': job.logoBackground}">
+            <img [src]="getImageUrl(job.logo)" alt="">
+        </div>
+        <div class="top-detail">
+            <div class="company">
+                {{job.company}}
+            </div>
+            <div class="website">
+                {{job.website}}
+            </div>
+    
+        </div>
+    </div>
+    <div class="right">
+        <button>
+            Company Site
+        </button>
+    </div>
+   </div>
+   <div class="detail">
+    <div class="info">
+        <div class="left">
+            <div class="meta-data">
+                <div class="time">
+                   {{job.postedAt}}
+                </div>
+                <span class='dot'>.</span>
+                <div class="duration">
+                    {{job.contract}}
+                </div>
+            </div>
+            <div class="title">
+                {{job.position}}
+            </div>
+            <div class="location">
+                {{job.location}}
+            </div>
+        </div>
+        <div class="right">
+            <button>
+                Apply Now
+            </button>
+        </div>
+    </div>
+    <p class="description">{{job.description}}</p>
+    <h3>Requirements</h3>
+    <p class="description">{{job.requirements.content}}</p>
+    <ul style="list-style-type:disc;">
+        <li *ngFor="let item of job.requirements.items">{{item}}</li>
+    </ul>
+    <h3>What You Will Do</h3>
+    <p class="description">{{job.role.content}}</p>
+    <ol>
+        <li *ngFor="let item of job.role.items">{{item}}</li>
+    </ol>
+    </div>
+</div>
+
+<div class="footer">
+    <div class="container">
+        <div class="left">
+            <div class="top-detail">
+                <div class="company">
+                    {{job.company}}
+                </div>
+                <div class="website">
+                    {{job.website}}
+                </div>
+        
+            </div>
+        </div>
+        <div class="right">
+            <button>
+                Company Site
+            </button>
+        </div>
+    </div>
+</div>
