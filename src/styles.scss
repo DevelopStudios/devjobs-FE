@@ -13,6 +13,9 @@ body {
 }
 .outer-container.dark {
     background: #121721;
+    h3 {
+        color:#fff;
+    }
     .button-container {
         background: #121721;
     }
@@ -173,5 +176,60 @@ html, body { height: 100%;}
     }
     .search-container.expand {
         height: 160px !important;
+    }
+    .container {
+        .intro {
+            display: block !important;
+            .left {
+                width:100%;
+                justify-content: center;
+                .top-detail {
+                    text-align: center;
+                }
+                .logo {
+                    position: absolute;
+                    margin-right: 0 !important;
+                    min-width: 50px !important;
+                    margin-top: -23px;
+                    min-height: 50px !important;
+                    img {
+                        min-width: 35px !important;
+                    }
+                }
+            }
+            .right {
+                text-align: center;
+                padding-bottom: 20px;
+                margin-top: 11px;
+                button {
+                    margin-right:0 !important;
+                }
+            }
+        }
+        .detail {
+            .info {
+                display: block !important;
+                .right {
+                    button {
+                        width: 100%;
+                        margin-top: 30px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 500px) {
+    .footer {
+        .left {
+            display: none;
+        }
+        .right {
+            width: 100%;
+            button {
+                width: 100%;
+            }
+        }
     }
 }
