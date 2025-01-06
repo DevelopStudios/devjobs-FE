@@ -6,5 +6,13 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+
+  darkTheme: boolean = false;
   title = 'devapp';
+
+
+  checkToggle(){
+    let element = document.getElementById("body");
+    console.log(element);
+  }
 }

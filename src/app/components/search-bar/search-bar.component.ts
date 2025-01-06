@@ -12,6 +12,7 @@ export class SearchBarComponent implements OnInit {
       location: '',
       fulltime: false
   }
+  filterToggle:boolean = false;
   constructor(private List: ListService) { }
 
   search(){
@@ -23,7 +24,11 @@ export class SearchBarComponent implements OnInit {
       location: '',
       fulltime: false
   }
+
   this.List.searchObject.next(false);
+  }
+  toggleFilter() {
+    this.filterToggle = !this.filterToggle;
   }
   ngOnInit(): void {
   }

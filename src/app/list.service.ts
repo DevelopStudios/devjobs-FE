@@ -8,6 +8,7 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class ListService {
  searchObject = new BehaviorSubject({});
+ themeToggle = new BehaviorSubject(false);
   constructor(
     private http: HttpClient,
    
