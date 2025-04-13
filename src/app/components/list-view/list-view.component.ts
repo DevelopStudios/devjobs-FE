@@ -88,7 +88,7 @@ export class ListViewComponent implements OnInit {
   }
 
   toggleEntry(param:any) {
-    const jobId = param.value.id;
+    const jobId = param.id;
     this.router.navigate([`/job/${jobId}`])
   }
 
