@@ -2,33 +2,33 @@
 <div class="container">
     <app-search-bar></app-search-bar>
     <div class="list-view">
-        <div class="entry" *ngFor="let item of listDataShort" (click)="toggleEntry(item)">
-            <div class="logo" [ngStyle]="{'background': item.value.logoBackground}">
-                <img src={{getImageUrl(item.value.logo)}} alt="">
+        <div class="entry" *ngFor="let item of diplayedListings" (click)="toggleEntry(item)">
+            <div class="logo" [ngStyle]="{'background': item.logoBackground}">
+                <img src={{getImageUrl(item.logo)}} alt="">
             </div>
             <div class="meta-data">
             <div class="time">
-               {{item.value.postedAt}}
+               {{item.postedAt}}
             </div>
             <span class='dot'>.</span>
             <div class="duration">
-                {{item.value.contract}}
+                {{item.contract}}
             </div>
             </div>
             <div class="title">
-                {{item.value.position}}
+                {{item.position}}
             </div>
             <div class="company">
-                {{item.value.company}}
+                {{item.company}}
             </div>
             <div class="location">
-                {{item.value.location}}
+                {{item.location}}
             </div>
         </div>
     </div>
     <div class="button-container">
-        <button class="show" (click)="toggleShowMore()">
-            {{showMore? 'Show Less':'Show More'}}
+        <button class="show" (click)="toggleShowMore()" *ngIf="showMoreButtonVisible">
+            Show More
         </button>
     </div>
     
