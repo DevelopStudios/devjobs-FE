@@ -3,9 +3,10 @@ import { ActivatedRoute } from '@angular/router';
 import { ListService } from 'src/app/list.service';
 
 @Component({
-  selector: 'app-edit-view',
-  templateUrl: './edit-view.component.html',
-  styleUrls: ['./edit-view.component.scss']
+    selector: 'app-edit-view',
+    templateUrl: './edit-view.component.html',
+    styleUrls: ['./edit-view.component.scss'],
+    standalone: false
 })
 export class EditViewComponent implements OnInit {
   job:any;
