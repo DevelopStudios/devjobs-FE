@@ -7,25 +7,28 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class ListService {
- searchObject = new BehaviorSubject({});
- themeToggle = new BehaviorSubject(false);
-  constructor(
-    private http: HttpClient,
-   
-  ) {
+  searchObject = new BehaviorSubject<any>({});
+  themeToggle = new BehaviorSubject(false);
+
+  constructor(private http: HttpClient) {}
+
+  // Helper to get a clean array for Orama
+  getCleanListData(): any[] {
+    const data = listData as any;
+    // Removing the metadata/default exports that come with JSON imports
+    return Object.values(data).filter(item => typeof item === 'object' && item !== null && 'id' in item);
   }
 
-  getListData(){
+  getListData() {
     return listData;
   }
 
-  getById(param:any){
-    let data = Object.entries(listData);
-    const found:any = data.find((el) => el[1].id == param);
-    return found[1];
+  getById(param: any) {
+    const data = this.getCleanListData();
+    return data.find((el) => el.id == param);
   }
 
-  search(param:any) {
+  search(param: any) {
     this.searchObject.next(param);
   }
 }

@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { debounceTime, switchMap, from } from 'rxjs';
 import { ListService } from 'src/app/list.service';
+import { SmartSearchService } from 'src/app/shared/smart-search.service';
 
 interface Listing {
   id: number,
@@ -17,88 +19,118 @@ interface Listing {
   requirements: {
     content: string,
     items: string[]
-    },
+  },
   role: {
-  content: string,
-  items: string[]
+    content: string,
+    items: string[]
   }
 }
 
 
 @Component({
-    selector: 'app-list-view',
-    templateUrl: './list-view.component.html',
-    styleUrls: ['./list-view.component.scss'],
-    standalone: false
+  selector: 'app-list-view',
+  templateUrl: './list-view.component.html',
+  styleUrls: ['./list-view.component.scss'],
+  standalone: false
 })
+
 export class ListViewComponent implements OnInit {
-  Listings:Listing[]=[];
-  filteredListings:Listing[]=[];
-  diplayedListings: Listing[]=[];
-  itemsToShowInitially = 5;
+  Listings: Listing[] = [];
+  filteredListings: Listing[] = [];
+  displayedListings: Listing[] = [];
+  itemsToShowInitially = 10;
   itemsToLoadOnScroll = 5;
   showMoreButtonVisible = false;
-  searchParams: any = {};
-  constructor(
-    private List: ListService,    private router: Router
-  ) { }
+  searchParams: any = { general: '', location: '', fulltime: '' }; // Initialize defaults
 
-  ngOnInit(): void {
-     this.getListData();
-     this.List.searchObject.subscribe(value => {
-      if (Object.keys(value).length > 0){
-        this.searchList(value);
-      }
-     });
-  }
+  private List = inject(ListService);
+  private router = inject(Router);
+  private smartSearchService = inject(SmartSearchService);
 
-  getListData() {
-    this.applyFilterAndPaginate();
-    let data:Listing[] = this.List.getListData();
-    this.Listings = Object.entries(data).slice(0, -2).map(([key,value]) => value as Listing);
-    this.diplayedListings = this.Listings.slice(0, this.itemsToShowInitially);
-    this.showMoreButtonVisible = this.Listings.length > this.diplayedListings.length;
-  }
+  constructor() { }
 
-  getImageUrl(item:any) {
+  async ngOnInit(): Promise<void> {
+    // Reset search state in service to ensure "initial view" on navigation back
+    this.List.searchObject.next({});
+
+    // 1. Get data from service
+    this.Listings = this.List.getCleanListData();
+    this.filteredListings = [...this.Listings];
+    this.displayedListings = this.filteredListings.slice(0, this.itemsToShowInitially);
+    this.showMoreButtonVisible = this.filteredListings.length > this.displayedListings.length;
+
+    // 2. Initialize AI Indexing (Background)
+    // We don't 'await' this if we want the UI to be usable immediately
+    this.smartSearchService.initializeIndex(this.Listings);
+
+    // 3. Listen for search updates
+    this.List.searchObject.pipe(
+      debounceTime(300), // Wait for 300ms pause in typing
+      switchMap(value => {
+        const params = value || {};
+        // Map parameters and pass them directly into the search logic
+        const mappedParams = { ...params, fulltime: params.fulltime === true ? 'Full Time' : '' };
+        return from(this.getFilteredResults(mappedParams));
+      })
+    ).subscribe(results => {
+      this.filteredListings = results;
+      this.displayedListings = this.filteredListings.slice(0, this.itemsToShowInitially);
+      this.showMoreButtonVisible = this.filteredListings.length > this.displayedListings.length;
+    });
+}
+
+  getImageUrl(item: any) {
     return item.substring(2)
   }
 
-  searchList(param:any) {
-    const paramCopy = JSON.parse(JSON.stringify(param));
-    if(paramCopy !== false){
-      if(paramCopy.fulltime === true) {
-        paramCopy.fulltime = 'Full Time';
-      } else {
-        paramCopy.fulltime = '';
-      }
-      this.searchParams = paramCopy;
-      this.applyFilterAndPaginate();
+  searchList(param: any) {
+  }
+
+  async getFilteredResults(params: any): Promise<Listing[]> {
+    // 1. If the search query is empty or cleared, reset to the full unfiltered list immediately
+    if (!params.general) {
+      return [...this.Listings];
     }
-  }
 
-  applyFilterAndPaginate(){
-    this.filteredListings = this.Listings.filter(obj => {
-      const generalMatch = obj.position.toLowerCase().includes(this.searchParams.general.toLowerCase());
-      const locationMatch = obj.location.toLowerCase().includes(this.searchParams.location.toLowerCase());
-      const fulltimeMatch = obj.contract.toLowerCase().includes(this.searchParams.fulltime.toLowerCase());
-      return generalMatch && locationMatch && fulltimeMatch;
+    let baseResults: Listing[] = [];
+
+    // 2. Determine Search Mode: Semantic vs. Standard
+    if (params.general && this.smartSearchService.isIndexReady()) {
+      // Use the WebGPU + Orama path
+      const smartMatches = await this.smartSearchService.performSearch(params.general);
+      baseResults = smartMatches ? (smartMatches as unknown as Listing[]) : this.Listings;
+    } else {
+      const query = (params.general || '').toLowerCase();
+      baseResults = this.Listings.filter(obj => 
+        [obj.position, obj.company, obj.description, obj.location]
+          .some(field => field?.toLowerCase().includes(query)) ||
+        obj.requirements.items.some(item => item.toLowerCase().includes(query))
+      );
+    }
+
+    // 3. Apply Strict "Hard" Filters (Location & Contract)
+    const finalResults = baseResults.filter(obj => {
+      const loc = obj.location || '';
+      const con = obj.contract || '';
+      const locationMatch = loc.toLowerCase().includes((params.location || '').toLowerCase());
+      const fulltimeMatch = con.toLowerCase().includes((params.fulltime || '').toLowerCase());
+      return locationMatch && fulltimeMatch;
     });
-    this.diplayedListings = this.filteredListings.slice(0, this.itemsToShowInitially);
-    this.showMoreButtonVisible = this.filteredListings.length > this.diplayedListings.length;
+
+    return finalResults;
   }
 
-  toggleEntry(param:any) {
+  toggleEntry(param: any) {
     const jobId = param.id;
     this.router.navigate([`/job/${jobId}`])
   }
 
   toggleShowMore() {
-    const nextItems = this.Listings.slice(
-      this.diplayedListings.length,
-      this.diplayedListings.length + this.itemsToLoadOnScroll
+    const nextItems = this.filteredListings.slice(
+      this.displayedListings.length,
+      this.displayedListings.length + this.itemsToLoadOnScroll
     );
-    this.diplayedListings = [...this.diplayedListings,...nextItems];
-    this.showMoreButtonVisible = this.Listings.length > this.diplayedListings.length;
+    this.displayedListings = [...this.displayedListings, ...nextItems];
+    this.showMoreButtonVisible = this.filteredListings.length > this.displayedListings.length;
   }
 }

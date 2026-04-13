@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { ListService } from 'src/app/list.service';
+import { SmartSearchService } from 'src/app/shared/smart-search.service'; // Adjust path
 
 @Component({
     selector: 'app-search-bar',
@@ -13,25 +14,30 @@ export class SearchBarComponent implements OnInit {
       location: '',
       fulltime: false
   }
-  filterToggle:boolean = false;
-  constructor(private List: ListService) { }
+  filterToggle: boolean = false;
+  
+  // Inject the service to use its signals in the template
+  public smartSearch = inject(SmartSearchService);
+  private List = inject(ListService);
 
-  search(){
+  search() {
+    // Only trigger search if the model is ready, or let it fallback to standard
     this.List.search(this.filter);
   }
+
   clear() {
     this.filter = {
-      general:'',
+      general: '',
       location: '',
       fulltime: false
+    };
+    this.List.searchObject.next(false);
   }
 
-  this.List.searchObject.next(false);
-  }
   toggleFilter() {
     this.filterToggle = !this.filterToggle;
   }
+
   ngOnInit(): void {
   }
-
 }

@@ -18,6 +18,8 @@
     "@angular/platform-browser": "^19.2.20",
     "@angular/platform-browser-dynamic": "^19.2.20",
     "@angular/router": "^19.2.20",
+    "@huggingface/transformers": "^4.0.1",
+    "@orama/orama": "^3.1.18",
     "rxjs": "~7.4.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.1"

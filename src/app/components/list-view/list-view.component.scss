@@ -12,6 +12,13 @@
         padding-top: 47px; 
         margin-bottom: 6%;
 
+        body.dark & {
+            background: #19202D;
+            .title, .meta-data, .company {
+                color: #fff;
+            }
+        }
+
         .logo {
             position: absolute;
             margin-top: -71px;
@@ -23,6 +30,7 @@
             align-items: center;
             img {
                 position: absolute;
+                max-width: 100%;
             }
         }
         .meta-data {
@@ -61,6 +69,7 @@
 
 .button-container {
     text-align: center;
+    margin-bottom: 30px;
     button.show {
         background-color: #5964E0;
         border: none;
@@ -75,4 +84,15 @@
         cursor: pointer;
         border-radius: 3px;
     }
+}
+
+.list-view-layout {
+  display: flex;
+  flex-direction: column;
+  /* Adjust 160px to match your specific top-nav header height */
+  min-height: calc(100vh - 160px);
+}
+
+.main-content {
+  flex: 1; /* Forces this area to grow and fill empty space */
 }

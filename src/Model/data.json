@@ -478,5 +478,99 @@
         "Proactively solve the problems most important to the business"
       ]
     }
+  },
+  {
+    "id": 16,
+    "company": "TechFlow",
+    "logo": "./assets/logos/techflow.svg",
+    "logoBackground": "hsl(204, 86%, 53%)",
+    "position": "Lead UX Researcher",
+    "postedAt": "3h ago",
+    "contract": "Full Time",
+    "location": "Netherlands",
+    "website": "https://example.com/techflow",
+    "apply": "https://example.com/techflow/apply",
+    "description": "TechFlow is a user-centric design agency that helps startups and enterprises build products people love. We are looking for a Lead UX Researcher to spearhead our research initiatives and help shape the future of our clients' products.",
+    "requirements": {
+      "content": "You are an expert in user research methodologies and have a proven track record of translating research findings into actionable design insights. You are comfortable leading teams and presenting to stakeholders.",
+      "items": [
+        "7+ years of experience in UX research",
+        "Expertise in qualitative and quantitative research methods",
+        "Experience leading and mentoring a team of researchers",
+        "Excellent communication and presentation skills"
+      ]
+    },
+    "role": {
+      "content": "You will be responsible for defining the research strategy for our key accounts and overseeing the execution of research projects. You will work closely with designers and product managers to ensure user needs are at the center of every decision.",
+      "items": [
+        "Develop and implement research roadmaps",
+        "Lead complex research studies from start to finish",
+        "Advocate for the user throughout the product development process",
+        "Synthesize research data into compelling narratives and recommendations"
+      ]
+    }
+  },
+  {
+    "id": 17,
+    "company": "CloudScale",
+    "logo": "./assets/logos/cloudscale.svg",
+    "logoBackground": "hsl(142, 71%, 45%)",
+    "position": "Senior SRE",
+    "postedAt": "1d ago",
+    "contract": "Full Time",
+    "location": "United States",
+    "website": "https://example.com/cloudscale",
+    "apply": "https://example.com/cloudscale/apply",
+    "description": "CloudScale provides infrastructure solutions for high-traffic applications. We are looking for a Senior Site Reliability Engineer to join our platform team and help us build and maintain our globally distributed systems.",
+    "requirements": {
+      "content": "You have a deep understanding of cloud infrastructure and are passionate about automation and system reliability. You enjoy solving complex technical challenges and are comfortable working in a fast-paced environment.",
+      "items": [
+        "5+ years of experience in an SRE or DevOps role",
+        "Expertise in Kubernetes and container orchestration",
+        "Strong programming skills in Go or Python",
+        "Experience with infrastructure as code (Terraform, Pulumi)",
+        "On-call experience in a production environment"
+      ]
+    },
+    "role": {
+      "content": "You will be responsible for improving the reliability and performance of our core services. You will work on automation, monitoring, and incident response, and help define the architectural standards for our platform.",
+      "items": [
+        "Design and implement automated scaling and recovery solutions",
+        "Optimize system performance and resource utilization",
+        "Participate in incident response and post-mortem analysis",
+        "Collaborate with development teams to ensure services are reliable and observable"
+      ]
+    }
+  },
+  {
+    "id": 18,
+    "company": "Tokyo Dynamics",
+    "logo": "./assets/logos/tokyodynamics.svg",
+    "logoBackground": "hsl(354, 70%, 54%)",
+    "position": "Robotics Software Engineer",
+    "postedAt": "2d ago",
+    "contract": "Full Time",
+    "location": "Japan",
+    "website": "https://example.com/tokyodynamics",
+    "apply": "https://example.com/tokyodynamics/apply",
+    "description": "Tokyo Dynamics is at the forefront of the robotics revolution. We are looking for a Software Engineer to develop the control systems for our next generation of industrial robots.",
+    "requirements": {
+      "content": "You have a strong background in C++ and experience with real-time systems. You are passionate about robotics and enjoy working on hardware-software integration.",
+      "items": [
+        "Expertise in C++ (C++17 or later)",
+        "Experience with ROS (Robot Operating System)",
+        "Knowledge of control theory and kinematics",
+        "Ability to work in a cross-functional team of hardware and software engineers"
+      ]
+    },
+    "role": {
+      "content": "You will design, implement, and test the software that controls the movement and sensors of our robots. You will work closely with hardware engineers to ensure seamless integration and optimal performance.",
+      "items": [
+        "Develop real-time control algorithms",
+        "Implement sensor fusion techniques",
+        "Conduct rigorous testing and validation on physical hardware",
+        "Contribute to the overall software architecture and design"
+      ]
+    }
   }
 ]

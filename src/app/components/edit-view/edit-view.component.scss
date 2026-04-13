@@ -6,6 +6,13 @@
     margin-top: -41px;
     border-radius: 5px;
     position: relative;
+
+    body.dark & {
+        background: #19202D;
+        .left .top-detail .company { color: #fff; }
+        .left .top-detail .website { color: #fff; opacity: 0.7; }
+    }
+
     .left {
         display: flex;
         .logo {
@@ -53,6 +60,16 @@
     background: #fff;
     padding: 45px 20px;
     margin-top: 31px;
+
+    body.dark & {
+        background: #19202D;
+        .info .left .title, 
+        h3, 
+        p.description, 
+        ul li, 
+        ol li { color: #fff; }
+    }
+
     .info {
         display: flex;
         align-items: center;
@@ -126,10 +143,13 @@
 
 .footer {
     background: #fff;
-    position: sticky;
-    top: 100vh;
-    margin-top:10px;
     padding:25px;
+
+    body.dark & {
+        background: #19202D;
+        .container .top-detail .company { color: #fff; }
+    }
+
     .container {
         display: flex;
         justify-content: space-between;
@@ -159,4 +179,20 @@
         }
     }
     
+}
+
+.edit-view-layout {
+  display: flex;
+  flex-direction: column;
+  /* 
+     The scroll issue occurs because 100vh does not account for the header 
+     sitting above this component. By subtracting the header's height (approx 160px), 
+     the layout will fill the remaining space exactly, keeping the footer at 
+      the bottom of the viewport on short pages without triggering a scroll.
+  */
+  min-height: calc(100vh - 160px);
+}
+
+.main-content {
+  flex: 1; // This makes the content area grow to fill available space
 }

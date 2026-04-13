@@ -1,35 +1,35 @@
-
-<div class="container">
-    <app-search-bar></app-search-bar>
-    <div class="list-view">
-        <div class="entry" *ngFor="let item of diplayedListings" (click)="toggleEntry(item)">
-            <div class="logo" [ngStyle]="{'background': item.logoBackground}">
-                <img src={{getImageUrl(item.logo)}} alt="">
-            </div>
-            <div class="meta-data">
-            <div class="time">
-               {{item.postedAt}}
-            </div>
-            <span class='dot'>.</span>
-            <div class="duration">
-                {{item.contract}}
-            </div>
-            </div>
-            <div class="title">
-                {{item.position}}
-            </div>
-            <div class="company">
-                {{item.company}}
-            </div>
-            <div class="location">
-                {{item.location}}
-            </div>
-        </div>
-    </div>
-    <div class="button-container">
-        <button class="show" (click)="toggleShowMore()" *ngIf="showMoreButtonVisible">
-            Show More
-        </button>
-    </div>
-    
+<div class="list-view-layout">
+  <main class="main-content container">
+      <app-search-bar></app-search-bar>
+      <div class="list-view">
+          <div class="entry" *ngFor="let item of displayedListings" (click)="toggleEntry(item)">
+              <div class="logo" [ngStyle]="{'background': item.logoBackground}">
+                  <img src={{getImageUrl(item.logo)}} alt="">
+              </div>
+              <div class="meta-data">
+              <div class="time">
+                 {{item.postedAt}}
+              </div>
+              <span class='dot'>.</span>
+              <div class="duration">
+                  {{item.contract}}
+              </div>
+              </div>
+              <div class="title">
+                  {{item.position}}
+              </div>
+              <div class="company">
+                  {{item.company}}
+              </div>
+              <div class="location">
+                  {{item.location}}
+              </div>
+          </div>
+      </div>
+      <div class="button-container">
+          <button class="show" (click)="toggleShowMore()" *ngIf="showMoreButtonVisible">
+              Show More
+          </button>
+      </div>
+  </main>
 </div>
