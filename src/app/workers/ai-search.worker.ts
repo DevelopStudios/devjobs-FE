@@ -12,9 +12,12 @@ addEventListener('message', async ({ data }) => {
     try {
       // Load the feature extraction pipeline (embeddings)
       // 'all-MiniLM-L6-v2' is a common, small, and fast model for semantic search
-      embedder = await pipeline('feature-extraction', 'Xenova/all-MiniLM-L6-v2');
+      embedder = await pipeline('feature-extraction', 'Xenova/all-MiniLM-L6-v2', {
+        device: 'webgpu'
+      });
       postMessage({ type: 'ready' });
     } catch (error) {
+      postMessage({ type: 'error', message: 'Model failed to load' });
     }
   }
 
@@ -31,6 +34,7 @@ addEventListener('message', async ({ data }) => {
       const embedding = Array.from(output.data);
       postMessage({ type: 'embedding_complete', embedding, id: data.id });
     } catch (error) {
+      postMessage({ type: 'error', message: 'Embedding failed' });
     }
   }
 });

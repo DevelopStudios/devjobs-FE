@@ -14,21 +14,27 @@ export class SmartSearchService {
   isIndexReady = signal(false);
   isIndexing = signal(false);
 
-  constructor() {
+  private workerReady = new Promise<void>(resolve => {
     this.worker.onmessage = ({ data }) => {
       if (data.type === 'ready') {
-        this.isReady.set(true)
-      };
+        this.isReady.set(true);
+        resolve();
+      }
     };
+  });
+
+  constructor() {
     this.worker.postMessage({ type: 'init' });
   }
 
   // 1. Initialize the Orama DB and Index your local data
   async initializeIndex(listings: any[]) {
-  // BUG FIX: Only return if we are already indexing or if the DB already exists.
   if (this.isIndexReady() || this.isIndexing()) return;
-  
+
   this.isIndexing.set(true);
+
+  // Wait for the worker model to finish loading before sending embed messages
+  await this.workerReady;
 
   this.db = await create({
     schema: {
@@ -40,18 +46,16 @@ export class SmartSearchService {
       logo: 'string',
       logoBackground: 'string',
       postedAt: 'string',
-      fullText: 'string', 
-      embedding: 'vector[384]', 
+      fullText: 'string',
+      embedding: 'vector[384]',
     } as const,
   });
 
-  // Process all listings in parallel to significantly speed up initial load
+  // Keep text short to stay within the 256-token model limit
+  // Position + key requirements is enough signal for semantic matching
   const entries = await Promise.all(listings.map(async (job) => {
-      const textToEmbed = `
-        ${job.position} at ${job.company} in ${job.location}. 
-        Description: ${job.description} 
-        Requirements: ${job.requirements?.content} ${job.requirements?.items?.join(' ')}
-      `.toLowerCase();
+      const requirementsSummary = job.requirements?.items?.slice(0, 3).join('. ') ?? '';
+      const textToEmbed = `${job.position} at ${job.company}. ${requirementsSummary}`.toLowerCase();
 
       const embedding = await this.getQueryEmbedding(textToEmbed);
 
@@ -84,12 +88,13 @@ export class SmartSearchService {
     const queryEmbedding = await this.getQueryEmbedding(normalizedQuery);
 
     const results = await search(this.db, {
-      mode: 'vector',
+      mode: 'hybrid',
+      term: normalizedQuery,
       vector: {
         value: queryEmbedding,
         property: 'embedding',
       },
-      similarity: 0.25, // Significantly lower threshold for broader semantic matching
+      similarity: 0.25,
       limit: 20,
     });
 
