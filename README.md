@@ -1,27 +1,58 @@
-# Devapp
+# TalentBoard
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.1.4.
+A developer job board with in-browser semantic search — no backend, no API keys.
 
-## Development server
+**Live:** [devjobs-fe-a0h85.kinsta.page](https://devjobs-fe-a0h85.kinsta.page)
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+---
 
-## Code scaffolding
+## What makes it interesting
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Standard job boards match on exact keywords. TalentBoard understands intent.
 
-## Build
+Search `"cloud engineer"` and it surfaces DevOps and SRE roles. Search `"mobile app"` and it finds iOS positions. The search runs entirely in the browser — embeddings computed in a Web Worker, no server round-trip.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+---
 
-## Running unit tests
+## How it works
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+| Layer | Technology | Role |
+|-------|-----------|------|
+| Embeddings | `all-MiniLM-L6-v2` via Transformers.js | Converts text to 384-dim vectors in a Web Worker |
+| Vector search | Orama | Hybrid BM25 + cosine similarity |
+| Indexing | Web Worker | Non-blocking — UI stays responsive during index build |
+| Framework | Angular 17+ | Signals, OnPush, lazy-loaded routes |
 
-## Running end-to-end tests
+The worker waits for the model to finish loading before accepting embed requests — avoiding a race condition where messages arrive before the engine initialises.
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+---
 
-## Further help
+## Stack
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+- Angular 17
+- Transformers.js (`@huggingface/transformers`)
+- Orama (`@orama/orama`)
+- TypeScript
+
+---
+
+## Run locally
+
+```bash
+npm install
+ng serve
+```
+
+Navigate to `http://localhost:4200`
+
+---
+
+## Try these searches
+
+| Query | What it finds |
+|-------|--------------|
+| `cloud engineer` | SRE and DevOps roles |
+| `mobile app` | iOS Engineer |
+| `team management` | Tech Lead and Support Manager roles |
+| `payment processing` | Fullstack roles with transaction volume |
+| `containers` | Kubernetes and ECS positions |
